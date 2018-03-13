@@ -1,0 +1,12 @@
+---
+- name: Provision a MOTD example
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Use a template file for MOTD to modify each system
+      template:
+        src: motd.j2
+        dest: /etc/motd
+
+  tags:
+    - callback
