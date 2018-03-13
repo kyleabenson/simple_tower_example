@@ -6,7 +6,7 @@
   tasks:
     - name: Use a template file for MOTD to modify each system
       template:
-        src: motd.j2
+        src: ../motd.j2
         dest: /etc/motd
 
   tags:
