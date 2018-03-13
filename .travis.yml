@@ -1,5 +1,5 @@
 sudo: required
-dist: centos/7
+dist: trusty
 language: python
 python:
   - "2.7"
@@ -12,14 +12,11 @@ env:
 before_install:
     # Ansible doesn't play well with virtualenv
   - deactivate
-  - sudo yum update -y
-  - sudo yum install -y docker-engine
 
 install:
   - sudo pip install docker-py
     # software-properties-common for ubuntu 14.04
     # python-software-properties for ubuntu 12.04
-  - sudo yum install -y sshpass software-properties-common python-software-properties
   - sudo pip install ansible
   - ansible --version
 
