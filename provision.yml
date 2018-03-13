@@ -2,7 +2,7 @@
 - name: Deploy systems with an example provisioning callback
   hosts: localhost
   vars_files:
-    - vars.yml
+    - sample_vars.yml
   tasks:
   - name: Deploy 3 systems which will make a provisioning callback to tower, to grab MOTD
     ec2:
