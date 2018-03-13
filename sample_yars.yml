@@ -1,0 +1,30 @@
+tower_address: #Enter Tower Address
+host_config_key: #Enter provisioning callback key
+template_id: #Enter template ID in Ansible tower
+user_key: #Enter EC2 key name
+lab_name: #Enter a generic name for demo systems
+subnet: #Enter a VPC subnet
+security_group: #Enter a security group
+user_data: |
+          #!/bin/bash
+          exec > /tmp/callback.log 2>&1
+          set -x
+          TOWER_ADDRESS={{ tower_address }}
+          HOST_CONFIG_KEY={{ host_config_key }}
+          TEMPLATE_ID={{ template_id }}
+
+
+          retry_attempts=10
+          attempt=0
+          while [[ $attempt -lt $retry_attempts ]]
+          do
+            status_code=`curl -k -s -i --data "host_config_key=$HOST_CONFIG_KEY" https://$TOWER_ADDRESS/api/v1/job_templates/$TEMPLATE_ID/callback/ | head -n 1 | awk '{print $2}'`
+            if [[ $status_code == 202 ]]
+              then
+              exit 0
+            fi
+            attempt=$(( attempt + 1 ))
+            echo "${status_code} received... retrying in 1 minute. (Attempt ${attempt})"
+            sleep 60
+          done
+          exit 1

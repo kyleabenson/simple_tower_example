@@ -1,0 +1,27 @@
+---
+- name: Deploy systems with an example provisioning callback
+  hosts: localhost
+  vars_files:
+    - vars.yml
+  tasks:
+  - name: Deploy 3 systems which will make a provisioning callback to tower, to grab MOTD
+    ec2:
+      key_name: "{{ user_key }}"
+      instance_type: t2.micro
+      image: ami-26ebbc5c
+      wait: yes
+      region: us-east-1
+      instance_tags:
+        Name: "{{ lab_name }}"
+        TowerManaged: true
+      count: 3
+      count_tag: "{{ lab_name }}"
+      vpc_subnet_id: "{{ subnet }}"
+      assign_public_ip: yes
+      group: "{{ security_group }}"
+      user_data: "{{ user_data}}"
+      volumes:
+        - device_name: /dev/sda1
+          volume_type: gp2
+          volume_size: 10
+          delete_on_termination: true
