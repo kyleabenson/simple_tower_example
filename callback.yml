@@ -6,7 +6,7 @@
     - name: Use a template file for MOTD to modify each system
       template:
         src: motd.j2
-        dst: /etc/motd
+        dest: /etc/motd
 
   tags:
     - callback
