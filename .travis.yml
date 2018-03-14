@@ -23,3 +23,6 @@ install:
 script:
   - ansible-playbook -i test/inventory test/test.yml
   - sudo cat /etc/motd
+
+notifications:
+  slack: ansible:I37hTMPOcuWJSDfaTktPfE7i
